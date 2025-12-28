@@ -2,7 +2,8 @@
   "compilerOptions": {
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "checkJs": false,   // <-- disables TS checks in JS files
   },
   "exclude": ["node_modules", "dist"]
 }
