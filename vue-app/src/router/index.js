@@ -3,6 +3,7 @@ import { useAuthStore } from '@/stores/auth'
 import LoginView from '@/views/LoginView.vue'
 import PasswordResetView from '@/views/PasswordResetView.vue'
 import DashboardView from '@/views/DashboardView.vue'
+import DashboardLayout from '@/components/DashboardLayout.vue'
 
 const routes = [
   {
@@ -16,11 +17,17 @@ const routes = [
     component: PasswordResetView,
   },
   {
-    path: '/dashboard',
-    name: 'dashboard',
-    component: DashboardView,
-    meta: { requiresAuth: true }
-  },
+    path: '/',
+    component: DashboardLayout,  // Layout wraps child routes
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: 'dashboard',
+        name: 'dashboard',
+        component: DashboardView
+      },
+    ]
+  }
 ]
 
 const router = createRouter({
@@ -38,7 +45,7 @@ router.beforeEach((to, from, next) => {
   }
 
   if (to.meta.requiresAuth && !auth.isAuthenticated) {
-    next({ name: '/'})
+    next({ name: 'login'})
     return
   }
 

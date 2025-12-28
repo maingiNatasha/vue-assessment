@@ -10,7 +10,8 @@ export const useAuthStore = defineStore('auth', {
     cooldownUntil: null,
     token: null,
     rememberMe: false,
-    logoutTimer: null
+    logoutTimer: null,
+    theme: 'light'
   }),
 
   getters: {
@@ -75,6 +76,9 @@ export const useAuthStore = defineStore('auth', {
       this.cooldownUntil = null
       this.rememberMe = rememberMe
 
+      // Initialize theme from user preferences
+      this.theme = user.preferences?.theme || 'light'
+
       // Generate a fake token (random string + expiration timestamp)
       const token = {
         value: Math.random().toString(36).substring(2), // random string
@@ -116,6 +120,10 @@ export const useAuthStore = defineStore('auth', {
 
       sessionStorage.removeItem('authToken')
       sessionStorage.removeItem('user')
+    },
+
+    toggleTheme() {
+      this.theme = this.theme === 'dark' ? 'light' : 'dark'
     }
   }
 })

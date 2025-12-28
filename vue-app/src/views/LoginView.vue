@@ -1,12 +1,14 @@
 <script setup>
 	import { reactive, onMounted } from 'vue'
   import userData from '../assets/user_data.json'
+  import { useRouter } from 'vue-router'
   import { useAuthStore } from '@/stores/auth'
   import useVuelidate from '@vuelidate/core'
   import { required, helpers } from '@vuelidate/validators'
 
-  // Initialize store
+  // Initialize store and router
   const auth = useAuthStore()
+  const router = useRouter()
 
   // Reactive form
   const form = reactive({
@@ -62,7 +64,9 @@
 
       if (user) {
         auth.loginSuccess(user, form.rememberMe)
-        alert(`Welcome, ${user.username}!`)
+
+        // Redirect to dashboard
+        router.push('/dashboard')
       } else {
         auth.loginFailure()
         alert('Invalid username or password. Please try again.')
