@@ -1,12 +1,9 @@
 <script setup>
   import { computed, ref } from 'vue'
   import { useAuthStore } from '@/stores/auth'
-  import { useUiStore } from '@/stores/ui'
-
   import { useRouter } from 'vue-router'
 
   const auth = useAuthStore()
-  const ui = useUiStore()
   const router = useRouter()
 
   const showDropdown = ref(false)
@@ -33,22 +30,18 @@
 <template>
   <nav class="top-nav">
     <!-- Collapse/Expand Button -->
-    <div>
-      <button class="collapse-btn" @click="ui.toggleCollapse">
+    <div class="left">
+      <button class="hamburger" @click="$emit('toggle-sidebar')">
         <i class="fa-solid fa-bars"></i>
       </button>
-    </div>
-
-    <!-- Logo / Branding -->
-    <div class="brand">
-      Company Logo
+      <span class="logo">MyCompany</span>
     </div>
 
     <!-- Right actions -->
-    <div class="actions">
+    <div class="right">
       <!-- User dropdown -->
       <div class="user-menu">
-        <button class="user-btn" @click="toggleDropdown" style="margin-right: 0.5rem;">
+        <button class="user-btn" @click="toggleDropdown" style="margin-right: 0.15rem;">
           <i class="fa-solid fa-user" style="margin-right: 0.25rem"></i>
           {{ auth.user.username }}
           <i class="fa-solid fa-chevron-down" style="margin-left:4px;"></i>
@@ -71,23 +64,36 @@
 
 <style scoped>
   .top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
+    z-index: 1100;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 16px 24px;
-    background: #ffffff;
+    background: white;
     border-bottom: 1px solid #e5e7eb;
   }
 
-  .brand {
-    font-size: 20px;
+  .logo {
+    font-size: 18px;
     font-weight: 600;
   }
 
-  .actions {
+  .left, .right {
     display: flex;
     align-items: center;
     gap: 16px;
+  }
+
+  .hamburger {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
   }
 
   .icon-btn {

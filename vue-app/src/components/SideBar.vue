@@ -1,40 +1,25 @@
 <script setup>
-  import { ref, onMounted, onUnmounted } from 'vue'
+  import {  } from 'vue'
   import { useAuthStore } from '@/stores/auth'
-  import { useUiStore } from '@/stores/ui'
+
+  // Define props
+  defineProps({
+    open: Boolean
+  })
 
   const auth = useAuthStore()
-  const ui = useUiStore()
-
-  const collapsed = ref(false)
-  const mobileOpen = ref(false)
-  const activeItem = ref('Dashboard') // You can set dynamically based on route
 
   // Navigation items
   const navItems = [
     { name: 'Dashboard', route: '/dashboard', icon: 'fa-solid fa-house' },
   ]
 
-  // Close sidebar on mobile when navigating
-  function handleResize() {
-    if (window.innerWidth >= 768) {
-      mobileOpen.value = false // ensure mobile sidebar closes
-    }
-  }
-
-  onMounted(() => {
-    window.addEventListener('resize', handleResize)
-  })
-
-  onUnmounted(() => {
-    window.removeEventListener('resize', handleResize)
-  })
 </script>
 
 <template>
-  <aside :class="['sidebar', { collapsed: ui.collapsed, 'mobile-open': ui.mobileOpen }]">
+  <aside :class="['sidebar', { open, collapsed: !open }]">
     <!-- User Profile -->
-    <div class="profile" v-if="!collapsed">
+    <div class="profile" v-if="open">
       <i class="fa-solid fa-user sidebar-avatar"></i>
       <div class="user-info">
         <span class="name">{{ `${auth.user.first_name} ${auth.user.last_name}` }}</span>
@@ -45,10 +30,10 @@
     <!-- Navigation Items -->
     <nav>
       <ul>
-        <li v-for="item in navItems" :key="item.name" :class="{ active: activeItem === item.name }">
+        <li v-for="item in navItems" :key="item.name">
           <router-link :to="item.route">
             <i :class="item.icon"></i>
-            <span v-if="!collapsed">{{ item.name }}</span>
+            <span v-if="open">{{ item.name }}</span>
           </router-link>
         </li>
       </ul>
@@ -59,24 +44,19 @@
 <style scoped>
   .sidebar {
     position: fixed;
-    top: 0;
     left: 0;
-    height: 100vh;
+    top: 54px;
+    height: calc(100vh - 54px);
     width: 220px;
-    transition: transform 0.3s, width 0.3s;
     z-index: 1000;
-    background-color: #ffffff;
-    padding: 0 1rem;
+    padding: 0 0.5rem;
+    background: #ffffff;
+    color: black;
+    transition: transform 0.23s ease;
   }
 
-  /* Collapsed desktop */
   .sidebar.collapsed {
-    width: 60px;
-  }
-
-  /* Mobile visible */
-  .sidebar.mobileOpen {
-    transform: translateX(0);
+    width: 50px;
   }
 
   .profile {
@@ -115,51 +95,40 @@
     margin: 0.5rem 0;
   }
 
-  nav li.active {
-    background-color: #d1d5db;
-    border-radius: 5px;
-  }
-
   nav a {
     display: flex;
     align-items: center;
     padding: 0.5rem 1rem;
     color: black;
     text-decoration: none;
+    font-size: 15px;
   }
 
-  nav a i {
+  /* Expanded sidebar */
+  .sidebar:not(.collapsed) nav a i {
     margin-right: 0.75rem;
   }
 
-  .collapse-btn {
-    background: none;
-    border: none;
-    color: black;
-    cursor: pointer;
-    font-size: 1.2rem;
-    margin-right: 0.5rem;
-    margin-top: 1.2rem;
+  /* Collapsed sidebar */
+  .sidebar.collapsed nav a i {
+    margin-right: 0;
   }
 
-  /* Desktop: visible by default */
-  @media (min-width: 768px) {
-    .sidebar {
-      transform: translateX(0);
-    }
-    .sidebar.collapsed {
-      width: 60px;
-    }
+  .router-link-exact-active {
+    background-color: #d1d5db;
+    border-radius: 5px;
   }
 
-  /* Mobile: hidden by default, shown when mobile-open */
+
   @media (max-width: 767px) {
     .sidebar {
       transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      width: 220px; /* full width on mobile */
     }
-    .sidebar.mobile-open {
+
+    .sidebar.open {
       transform: translateX(0);
     }
   }
-
 </style>

@@ -6,7 +6,6 @@
   </div>
 </template>
 
-
 <style scoped>
   .dashboard {
     min-height: 100vh;

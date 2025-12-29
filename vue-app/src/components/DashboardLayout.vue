@@ -4,24 +4,24 @@
 */
 
 <script setup>
-  import TopNav from '@/components/TopNav.vue'
+  import { ref } from 'vue'
   import SideBar from '@/components/SideBar.vue'
+  import TopNav from '@/components/TopNav.vue'
+
+  const isSidebarOpen = ref(false)
+
+  const toggleSidebar = () => {
+    isSidebarOpen.value = !isSidebarOpen.value
+  }
 </script>
 
 <template>
   <div class="layout">
-    <!-- Sidebar (fixed width) -->
-    <SideBar />
+    <SideBar :open="isSidebarOpen" />
 
-    <!-- Main content area -->
-    <div class="main-content">
-      <!-- Top navigation -->
-      <TopNav />
-
-      <!-- Routed page content -->
-      <div class="page-content">
-        <router-view />
-      </div>
+    <div class="main">
+      <TopNav @toggle-sidebar="toggleSidebar" />
+      <router-view />
     </div>
   </div>
 </template>
@@ -29,19 +29,18 @@
 <style scoped>
   .layout {
     display: flex;
-    min-height: 100vh;
   }
 
-  .main-content {
+  .main {
     flex: 1;
-    display: flex;
-    flex-direction: column;
+    padding-top: 34px;
+    min-height: calc(100vh - 34px);
   }
 
-  .page-content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1rem;
-    background-color: #f3f4f6;
+  @media (min-width: 768px) {
+    .sidebar {
+      transform: translateX(0);
+      position: relative;
+    }
   }
 </style>
