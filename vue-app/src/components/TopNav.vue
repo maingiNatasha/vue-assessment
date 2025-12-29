@@ -1,30 +1,35 @@
+/***@component: Top Nav
+  * @created-date: 28-12-2025
+  * @leysco-version: 1.0.0* @description: Creates fixed top navigation bar
+*/
+
 <script setup>
-  import { computed, ref } from 'vue'
-  import { useAuthStore } from '@/stores/auth'
-  import { useRouter } from 'vue-router'
+import { computed, ref } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
 
-  const auth = useAuthStore()
-  const router = useRouter()
+const auth = useAuthStore()
+const router = useRouter()
 
-  const showDropdown = ref(false)
+const showDropdown = ref(false)
 
-  const isDark = computed(() =>
-    auth.theme === 'dark'
-  )
+const isDark = computed(() =>
+  auth.theme === 'dark'
+)
 
-  const toggleDropdown = () => {
-    showDropdown.value = !showDropdown.value
-  }
+const toggleDropdown = () => {
+  showDropdown.value = !showDropdown.value
+}
 
-  const toggleTheme = () => {
-    auth.toggleTheme()
-    document.body.classList.toggle('dark')
-  }
+const toggleTheme = () => {
+  auth.toggleTheme()
+  document.body.classList.toggle('dark')
+}
 
-  const logout = () => {
-    auth.logout()
-    router.push('/')
-  }
+const logout = () => {
+  auth.logout()
+  router.push('/')
+}
 </script>
 
 <template>
@@ -63,80 +68,80 @@
 </template>
 
 <style scoped>
-  .top-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 30px;
-    z-index: 1100;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 24px;
-    background: white;
-    border-bottom: 1px solid #e5e7eb;
-  }
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  z-index: 1100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+}
 
-  .logo {
-    font-size: 18px;
-    font-weight: 600;
-  }
+.logo {
+  font-size: 18px;
+  font-weight: 600;
+}
 
-  .left, .right {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
+.left, .right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
 
-  .hamburger {
-    background: none;
-    border: none;
-    font-size: 1.4rem;
-    cursor: pointer;
-  }
+.hamburger {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
 
-  .icon-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-  }
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
 
-  .user-menu {
-    position: relative;
-  }
+.user-menu {
+  position: relative;
+}
 
-  .user-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-  }
+.user-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
 
-  .dropdown {
-    position: absolute;
-    right: 0;
-    top: 100%;
-    margin-top: 8px;
-    width: 140px;
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 8px;
+  width: 140px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
 
-  .dropdown-item {
-    width: 100%;
-    padding: 10px;
-    background: none;
-    border: none;
-    text-align: left;
-    cursor: pointer;
-  }
+.dropdown-item {
+  width: 100%;
+  padding: 10px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
 
-  .dropdown-item:hover {
-    background: #f3f4f6;
-  }
+.dropdown-item:hover {
+  background: #f3f4f6;
+}
 </style>
 

@@ -7,12 +7,12 @@
 </template>
 
 <style scoped>
-  .dashboard {
-    min-height: 100vh;
-    background: #f9fafb;
-  }
+.dashboard {
+  min-height: 100vh;
+  background: #f9fafb;
+}
 
-  .content {
-    padding: 24px;
-  }
+.content {
+  padding: 24px;
+}
 </style>
